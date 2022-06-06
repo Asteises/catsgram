@@ -16,7 +16,6 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
-    private static final Logger log = LoggerFactory.getLogger(PostController.class);
 
     @Autowired
     public PostController(PostService postService) {
