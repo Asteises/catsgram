@@ -25,18 +25,18 @@ public class UserController {
         return userService.findAll();
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public void add(@RequestBody User user) throws InvalidEmailException, UserAlreadyExistException {
         userService.add(user);
     }
 
     @PutMapping
-    public void renew(@RequestBody User user) throws InvalidEmailException, UserAlreadyExistException {
+    public void renew(@RequestBody User user) throws InvalidEmailException {
         userService.renew(user);
     }
 
-    @GetMapping
-    public User findUserByEmail(User user) {
-        return userService.findByEmail(user);
+    @GetMapping("/{userEmail}")
+    public User findUserByEmail(@PathVariable String userEmail) {
+        return userService.findByEmail(userEmail);
     }
 }
