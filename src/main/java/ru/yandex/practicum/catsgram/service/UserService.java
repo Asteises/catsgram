@@ -53,4 +53,10 @@ public class UserService {
         }
         return null;
     }
+
+    private void checkEmail(User user) throws InvalidEmailException {
+        if (user.getEmail() == null || user.getEmail().isBlank()) {
+            throw new InvalidEmailException("Адрес электронной почты не может быть пустым.");
+        }
+    }
 }

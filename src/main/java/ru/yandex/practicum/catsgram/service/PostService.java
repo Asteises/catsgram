@@ -2,19 +2,18 @@ package ru.yandex.practicum.catsgram.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.yandex.practicum.catsgram.controller.PostController;
-import ru.yandex.practicum.catsgram.exeptions.UserNotFoundException;
+import ru.yandex.practicum.catsgram.exception.UserNotFoundException;
 import ru.yandex.practicum.catsgram.model.Post;
 import ru.yandex.practicum.catsgram.model.User;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static ru.yandex.practicum.catsgram.Constants.DESCENDING_ORDER;
 
 @Service
 public class PostService {
@@ -51,5 +50,21 @@ public class PostService {
         log.debug("Сохраняем post: {}", post.toString());
         posts.add(post);
         return post;
+    }
+
+    public List<Post> findAllByUserEmail(String email, Integer size, String sort) {
+        return posts.stream()
+                .filter(p -> email.equals(p.getAuthor()))
+                .sorted((p0, p1) -> compare(p0, p1, sort))
+                .limit(size)
+                .collect(Collectors.toList());
+    }
+
+    private int compare(Post p0, Post p1, String sort) {
+        int result = p0.getCreationDate().compareTo(p1.getCreationDate()); //прямой порядок сортировки
+        if (sort.equals(DESCENDING_ORDER)) {
+            result = -1 * result; //обратный порядок сортировки
+        }
+        return result;
     }
 }
