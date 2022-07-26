@@ -3,13 +3,16 @@ package ru.yandex.practicum.catsgram.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.catsgram.exeptions.UserNotFoundException;
+import ru.yandex.practicum.catsgram.exception.IncorrectParameterException;
+import ru.yandex.practicum.catsgram.exception.UserNotFoundException;
 import ru.yandex.practicum.catsgram.model.Post;
 import ru.yandex.practicum.catsgram.service.PostService;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import static ru.yandex.practicum.catsgram.Constants.SORTS;
 
 @RestController
 public class PostController {
@@ -26,6 +29,10 @@ public class PostController {
             @RequestParam(name = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,
             @RequestParam(name = "sort", defaultValue = "desc", required = false) String sort) {
+
+        if (!SORTS.contains(sort)) {
+            throw new IncorrectParameterException("sort");
+        }
 
 
         if(!(sort.equals("asc") || sort.equals("desc"))){

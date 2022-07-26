@@ -2,7 +2,9 @@ package ru.yandex.practicum.catsgram;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
+// @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @SpringBootApplication
 public class CatsgramApplication {
 
@@ -11,3 +13,4 @@ public class CatsgramApplication {
 	}
 
 }
+
